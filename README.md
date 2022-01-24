@@ -10,7 +10,13 @@ This repository contains tests implemented using the Robot Framework.
 ## Framework used
 
 * Name: Robot Framework
-* URL: https://robotframework.org/
+* Home page: https://robotframework.org/
+* User Guide: https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html
+* Libraries: https://robotframework.org/?tab=libraries#resources
+  * Standard libraries: http://robotframework.org/robotframework/#standard-libraries
+  * robotframework-requests: https://github.com/MarketSquare/robotframework-requests
+  * robotframework-selenium2library: https://github.com/robotframework/SeleniumLibrary
+  * RESTinstance: https://github.com/asyrjasalo/RESTinstance/
 
 ## Test cases
 
