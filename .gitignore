@@ -1,3 +1,15 @@
+# IDE
+.idea
+.vscode
+
 # Logs
 logs
 *.log
+
+# Venv
+venv
+
+# Reports
+output.xml
+log.html
+report.html
