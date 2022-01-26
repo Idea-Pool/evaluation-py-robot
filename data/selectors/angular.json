@@ -1,0 +1,7 @@
+{
+  "angular_logo_navbar": "css:mat-toolbar > mat-toolbar-row a.nav-link > img",
+  "angular_logo_hero": "css:.hero-logo",
+  "hero_text": "css:.hero-headline",
+  "hero_button": "css:a.hero-cta",
+  "title": "css:h1"
+}

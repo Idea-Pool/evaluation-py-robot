@@ -28,7 +28,7 @@
 1. **When** the "POST movie rating" request is sent
 1. **Then** the response should contain status code 201
 
-## `TC-4` The movie rating should return a proper error message
+## `TC-4` The movie rating should return a proper message
 1. **Give** the {movie_id} is added to the POST request
 1. **And** the {"value": 8.0} is added to the POST request's body
 1. **When** the "POST movie rating" request is sent

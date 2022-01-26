@@ -6,3 +6,5 @@ docutils
 robotframework-seleniumlibrary
 webdrivermanager
 robotframework-requests
+robotframework-jsonlibrary
+robotframework-jsonschemalibrary
