@@ -1,0 +1,5 @@
+{
+  "readonly_input": "css:.form-control[type=\"text\"][readonly]",
+  "default_checkbox": "id:defaultCheck1",
+  "disabled_checkbox": "id:defaultCheck2"
+}

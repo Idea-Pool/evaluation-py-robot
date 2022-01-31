@@ -6,7 +6,7 @@ Force Tags        level:api
 Default Tags      type:positive
 Suite Setup       Run Keywords    Create A Guest Session
 ...               AND    Load Movie
-Resource          data.resource
+Resource          ../../resources/data.resource
 
 *** Variables ***
 ${API_KEY}        e231ae412af0eaab685d11c26505bda6

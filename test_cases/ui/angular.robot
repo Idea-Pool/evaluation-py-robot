@@ -5,7 +5,7 @@ Force Tags      level:ui
 Default Tags    type:positive
 Suite Setup     Load Page Data
 Test Teardown   Close Browser
-Resource        ../data.resource
+Resource        ../../resources/data.resource
 
 *** Variables ***
 ${BASE_URL}     https://angular.io

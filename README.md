@@ -21,7 +21,7 @@ This repository contains tests implemented using the Robot Framework.
 
 ## Test cases
 
-The implemented test cases can be found in [UI.md](test_cases/UI.md) and [API.md](test_cases/API.md).
+The implemented test cases can be found in [UI.md](test_cases/ui/UI.md) and [API.md](test_cases/api/API.md).
 
 ## Setup
 
