@@ -25,11 +25,14 @@ TC-02 The retrieved movie has a proper schema
     Validate Json    movie.json    ${response.json()}
 
 TC-03 A rating can be added to a movie
-    Rate A Movie    ${MOVIE}[id]    ${8.0}    201
+    [Template]  Rate A Movie
+    FOR  ${rate}  IN RANGE  1  11
+        ${MOVIE}[id]    ${rate}  201
+    END
 
 TC-04 The movie rating should return a proper message
     ${response}=    Rate A Movie    ${MOVIE}[id]    ${8.0}
-    Should Be Equal As Strings    Success.    ${response.json()}[status_message]
+    Should Be Equal As Strings    The item/record was updated successfully.    ${response.json()}[status_message]
 
 TC-05 Invalid rating cannot be aded to a movie
     [Tags]    type:negative
