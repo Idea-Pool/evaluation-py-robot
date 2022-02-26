@@ -23,6 +23,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
+          webdrivermanager chrome
       - name: Robot tests
         run: |
           robot test_cases
