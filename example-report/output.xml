@@ -1,0 +1,1763 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.1.3 (Python 3.9.5 on win32)" generated="20220226 13:35:48.571" rpa="false" schemaversion="2">
+<suite id="s1" name="Test Cases" source="C:\Repo\evaluation-py-robot\test_cases">
+<suite id="s1-s1" name="Api" source="C:\Repo\evaluation-py-robot\test_cases\api">
+<suite id="s1-s1-s1" name="Api Movie Db" source="C:\Repo\evaluation-py-robot\test_cases\api\api_movie_db.robot">
+<kw name="Run Keywords" library="BuiltIn" type="SETUP">
+<arg>Create A Guest Session</arg>
+<arg>AND</arg>
+<arg>Load Movie</arg>
+<doc>Executes all the given keywords in a sequence.</doc>
+<kw name="Create A Guest Session">
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/authentication/guest_session/new</arg>
+<arg>params=api_key=${API_KEY}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20220226 13:35:49.186" level="INFO">GET Request : url=https://api.themoviedb.org/3/authentication/guest_session/new?api_key=e231ae412af0eaab685d11c26505bda6 
+ path_url=/3/authentication/guest_session/new?api_key=e231ae412af0eaab685d11c26505bda6 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20220226 13:35:49.186" level="INFO">GET Response : url=https://api.themoviedb.org/3/authentication/guest_session/new?api_key=e231ae412af0eaab685d11c26505bda6 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:49 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"a3db0497e076ac478b1018d924730e9a"', 'Content-Encoding': 'gzip', 'Vary': 'Accept-Encoding', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 759fdd9f923ecbc08bad5c12c5d4db9a.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'WrB6K6U9dUkNmTQZ-hcYl4fZOdE4JuDa0yvoSrOBHhN2tg8pWMN-tA=='} 
+ body={"success":true,"guest_session_id":"41dcd96c69d1553918826daf8e9b57e3","expires_at":"2022-02-27 12:35:49 UTC"} 
+ </msg>
+<msg timestamp="20220226 13:35:49.186" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:48.779" endtime="20220226 13:35:49.186"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${GUEST_SESSION_ID}</arg>
+<arg>${response.json()}[guest_session_id]</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20220226 13:35:49.186" level="INFO">${GUEST_SESSION_ID} = 41dcd96c69d1553918826daf8e9b57e3</msg>
+<status status="PASS" starttime="20220226 13:35:49.186" endtime="20220226 13:35:49.186"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:48.779" endtime="20220226 13:35:49.186"/>
+</kw>
+<kw name="Load Movie">
+<kw name="Load Data" library="data">
+<var>${data}</var>
+<arg>type=movie</arg>
+<arg>id=76341</arg>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>${EXECDIR}${/}data${/}${type}${/}${id}.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20220226 13:35:49.186" level="INFO">${json} = {'id': 76341, 'title': 'Mad Max: Fury Road'}</msg>
+<status status="PASS" starttime="20220226 13:35:49.186" endtime="20220226 13:35:49.186"/>
+</kw>
+<msg timestamp="20220226 13:35:49.186" level="INFO">${data} = {'id': 76341, 'title': 'Mad Max: Fury Road'}</msg>
+<status status="PASS" starttime="20220226 13:35:49.186" endtime="20220226 13:35:49.186"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${MOVIE}</arg>
+<arg>${data}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20220226 13:35:49.186" level="INFO">${MOVIE} = {'id': 76341, 'title': 'Mad Max: Fury Road'}</msg>
+<status status="PASS" starttime="20220226 13:35:49.186" endtime="20220226 13:35:49.186"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:49.186" endtime="20220226 13:35:49.186"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:48.779" endtime="20220226 13:35:49.186"/>
+</kw>
+<test id="s1-s1-s1-t1" name="TC-01 A movie can be retrived by ID">
+<kw name="Get A Movie By ID">
+<arg>${MOVIE}[id]</arg>
+<arg>200</arg>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}</arg>
+<arg>params=api_key=${API_KEY}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20220226 13:35:49.374" level="INFO">GET Request : url=https://api.themoviedb.org/3/movie/76341?api_key=e231ae412af0eaab685d11c26505bda6 
+ path_url=/3/movie/76341?api_key=e231ae412af0eaab685d11c26505bda6 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20220226 13:35:49.374" level="INFO">GET Response : url=https://api.themoviedb.org/3/movie/76341?api_key=e231ae412af0eaab685d11c26505bda6 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 11:44:43 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=28800', 'X-Memc': 'HIT', 'X-Memc-Key': '56eeae205cda68212e8fb99865ebbd99d22d474b', 'X-Memc-Age': '10385', 'X-Memc-Expires': '4828', 'ETag': 'W/"a63919a3baad5913fb83547e6eed945c"', 'Content-Encoding': 'gzip', 'Vary': 'Accept-Encoding', 'X-Cache': 'Hit from cloudfront', 'Via': '1.1 9b182fbbf070d660a2561c354cfc9980.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'lJ7qFSpFTVtXf297hnEZnCddZKtMpUU7_M21h2N_ApM-zY3lhhTScQ==', 'Age': '3067'} 
+ body={"adult":false,"backdrop_path":"/nlCHUWjY9XWbuEUQauCBgnY8ymF.jpg","belongs_to_collection":{"id":8945,"name":"Mad Max Collection","poster_path":"/cNzCJnG4wstosen59BhydnUkaZJ.jpg","backdrop_path":"/gwYe803SFwKlCF5y71OicWHUnVD.jpg"},"budget":150000000,"genres":[{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":878,"name":"Science Fiction"}],"homepage":"https://www.warnerbros.com/movies/mad-max-fury-road","id":76341,"imdb_id":"tt1392190","original_language":"en","original_title":"Mad Max: Fury Road","overview":"An apocalyptic story set in the furthest reaches of our planet, in a stark desert landscape where humanity is broken, and most everyone is crazed fighting for the necessities of life. Within this world exist two rebels on the run who just might be able to restore order.","popularity":87.189,"poster_path":"/8tZYtuWezp8JbcsvHYO0O46tFbo.jpg","production_companies":[{"id":2537,"logo_path":null,"name":"Kennedy Miller Productions","origin_country":"AU"},{"id":174,"logo_path":"/IuAlhI9eVC9Z8UQWOIDdWRKSEJ.png","name":"Warner Bros. Pictures","origin_country":"US"},{"id":41624,"logo_path":"/wzKxIeQKlMP0y5CaAw25MD6EQmf.png","name":"RatPac Entertainment","origin_country":"US"},{"id":79,"logo_path":"/tpFpsqbleCzEE2p5EgvUq6ozfCA.png","name":"Village Roadshow Pictures","origin_country":"US"}],"production_countries":[{"iso_3166_1":"AU","name":"Australia"},{"iso_3166_1":"US","name":"United States of America"},{"iso_3166_1":"ZA","name":"South Africa"}],"release_date":"2015-05-13","revenue":378858340,"runtime":121,"spoken_languages":[{"english_name":"English","iso_639_1":"en","name":"English"}],"status":"Released","tagline":"What a Lovely Day.","title":"Mad Max: Fury Road","video":false,"vote_average":7.5,"vote_count":19042} 
+ </msg>
+<msg timestamp="20220226 13:35:49.374" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:49.186" endtime="20220226 13:35:49.374"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:49.186" endtime="20220226 13:35:49.374"/>
+</kw>
+<tag>level:api</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:35:49.186" endtime="20220226 13:35:49.374"/>
+</test>
+<test id="s1-s1-s1-t2" name="TC-02 The retrieved movie has a proper schema">
+<kw name="Get A Movie By ID">
+<var>${response}</var>
+<arg>${MOVIE}[id]</arg>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}</arg>
+<arg>params=api_key=${API_KEY}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20220226 13:35:49.519" level="INFO">GET Request : url=https://api.themoviedb.org/3/movie/76341?api_key=e231ae412af0eaab685d11c26505bda6 
+ path_url=/3/movie/76341?api_key=e231ae412af0eaab685d11c26505bda6 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20220226 13:35:49.519" level="INFO">GET Response : url=https://api.themoviedb.org/3/movie/76341?api_key=e231ae412af0eaab685d11c26505bda6 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 11:44:43 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=28800', 'X-Memc': 'HIT', 'X-Memc-Key': '56eeae205cda68212e8fb99865ebbd99d22d474b', 'X-Memc-Age': '10385', 'X-Memc-Expires': '4828', 'ETag': 'W/"a63919a3baad5913fb83547e6eed945c"', 'Content-Encoding': 'gzip', 'Vary': 'Accept-Encoding', 'X-Cache': 'Hit from cloudfront', 'Via': '1.1 a0c77ad2e3f5bbf63535bc898f348e5a.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'jnnAMbtwzFGoIhHHySbbXJZK0XXfWGUvbcefaDUqxOlqhE48o-cDVQ==', 'Age': '3067'} 
+ body={"adult":false,"backdrop_path":"/nlCHUWjY9XWbuEUQauCBgnY8ymF.jpg","belongs_to_collection":{"id":8945,"name":"Mad Max Collection","poster_path":"/cNzCJnG4wstosen59BhydnUkaZJ.jpg","backdrop_path":"/gwYe803SFwKlCF5y71OicWHUnVD.jpg"},"budget":150000000,"genres":[{"id":28,"name":"Action"},{"id":12,"name":"Adventure"},{"id":878,"name":"Science Fiction"}],"homepage":"https://www.warnerbros.com/movies/mad-max-fury-road","id":76341,"imdb_id":"tt1392190","original_language":"en","original_title":"Mad Max: Fury Road","overview":"An apocalyptic story set in the furthest reaches of our planet, in a stark desert landscape where humanity is broken, and most everyone is crazed fighting for the necessities of life. Within this world exist two rebels on the run who just might be able to restore order.","popularity":87.189,"poster_path":"/8tZYtuWezp8JbcsvHYO0O46tFbo.jpg","production_companies":[{"id":2537,"logo_path":null,"name":"Kennedy Miller Productions","origin_country":"AU"},{"id":174,"logo_path":"/IuAlhI9eVC9Z8UQWOIDdWRKSEJ.png","name":"Warner Bros. Pictures","origin_country":"US"},{"id":41624,"logo_path":"/wzKxIeQKlMP0y5CaAw25MD6EQmf.png","name":"RatPac Entertainment","origin_country":"US"},{"id":79,"logo_path":"/tpFpsqbleCzEE2p5EgvUq6ozfCA.png","name":"Village Roadshow Pictures","origin_country":"US"}],"production_countries":[{"iso_3166_1":"AU","name":"Australia"},{"iso_3166_1":"US","name":"United States of America"},{"iso_3166_1":"ZA","name":"South Africa"}],"release_date":"2015-05-13","revenue":378858340,"runtime":121,"spoken_languages":[{"english_name":"English","iso_639_1":"en","name":"English"}],"status":"Released","tagline":"What a Lovely Day.","title":"Mad Max: Fury Road","video":false,"vote_average":7.5,"vote_count":19042} 
+ </msg>
+<msg timestamp="20220226 13:35:49.519" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:49.379" endtime="20220226 13:35:49.519"/>
+</kw>
+<msg timestamp="20220226 13:35:49.519" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:49.379" endtime="20220226 13:35:49.519"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${MOVIE}[title]</arg>
+<arg>${response.json()}[title]</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220226 13:35:49.519" endtime="20220226 13:35:49.519"/>
+</kw>
+<kw name="Validate Json" library="JSONSchemaLibrary">
+<arg>movie.json</arg>
+<arg>${response.json()}</arg>
+<doc>Validates the sample JSON against the given schema.</doc>
+<status status="PASS" starttime="20220226 13:35:49.519" endtime="20220226 13:35:49.519"/>
+</kw>
+<tag>level:api</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:35:49.374" endtime="20220226 13:35:49.519"/>
+</test>
+<test id="s1-s1-s1-t3" name="TC-03 A rating can be added to a movie">
+<for flavor="IN RANGE">
+<var>${rate}</var>
+<value>1</value>
+<value>11</value>
+<iter>
+<var name="${rate}">1</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:49.535" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:49.535" endtime="20220226 13:35:49.535"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:49.535" level="INFO">&amp;{body} = { value=1 }</msg>
+<status status="PASS" starttime="20220226 13:35:49.535" endtime="20220226 13:35:49.535"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:49.896" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 1}' 
+ </msg>
+<msg timestamp="20220226 13:35:49.896" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '60', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:50 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"4543905c5703940a323f39bb4fdcba82"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 0570c32dd309ece735b20cdea238c10e.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'CdftiTaV5NzSD9pRqehEzTssUYDAw2Mqfjjfb9KQ5kdhoCnqr9VkmQ=='} 
+ body={"success":true,"status_code":1,"status_message":"Success."} 
+ </msg>
+<msg timestamp="20220226 13:35:49.896" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:49.535" endtime="20220226 13:35:49.896"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:49.535" endtime="20220226 13:35:49.896"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:49.519" endtime="20220226 13:35:49.896"/>
+</iter>
+<iter>
+<var name="${rate}">2</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:49.896" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:49.896" endtime="20220226 13:35:49.896"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:49.896" level="INFO">&amp;{body} = { value=2 }</msg>
+<status status="PASS" starttime="20220226 13:35:49.896" endtime="20220226 13:35:49.896"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:50.246" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 2}' 
+ </msg>
+<msg timestamp="20220226 13:35:50.246" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:50 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 9b182fbbf070d660a2561c354cfc9980.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'ahy5eFDTIN4VDPcC7SlYp5ISwxjSdc8YtDabCC0tKNr0pW07t3UoZg=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:50.246" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:49.896" endtime="20220226 13:35:50.246"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:49.896" endtime="20220226 13:35:50.246"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:49.896" endtime="20220226 13:35:50.246"/>
+</iter>
+<iter>
+<var name="${rate}">3</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:50.246" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:50.246" endtime="20220226 13:35:50.254"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:50.254" level="INFO">&amp;{body} = { value=3 }</msg>
+<status status="PASS" starttime="20220226 13:35:50.254" endtime="20220226 13:35:50.254"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:50.612" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 3}' 
+ </msg>
+<msg timestamp="20220226 13:35:50.615" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:51 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 d2182626bf7a31d463bb4b9335724f24.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': '-qttHkUr8NBxzYhhEaQNWmb01j-9WSqbg2Qim_Vzib08nHDAoBbdWQ=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:50.615" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:50.254" endtime="20220226 13:35:50.615"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:50.246" endtime="20220226 13:35:50.615"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:50.246" endtime="20220226 13:35:50.615"/>
+</iter>
+<iter>
+<var name="${rate}">4</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:50.615" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:50.615" endtime="20220226 13:35:50.615"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:50.615" level="INFO">&amp;{body} = { value=4 }</msg>
+<status status="PASS" starttime="20220226 13:35:50.615" endtime="20220226 13:35:50.615"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:51.076" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 4}' 
+ </msg>
+<msg timestamp="20220226 13:35:51.076" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:51 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 67b828898c2b34a7518c5b13dd7321c0.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'GkaUp9Zj9FpgMF91iQ2r31VbNu7OOH8RhjBYPnzKYqMNwAHAFa6XPA=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:51.076" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:50.615" endtime="20220226 13:35:51.076"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:50.615" endtime="20220226 13:35:51.076"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:50.615" endtime="20220226 13:35:51.076"/>
+</iter>
+<iter>
+<var name="${rate}">5</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:51.076" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:51.076" endtime="20220226 13:35:51.076"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:51.076" level="INFO">&amp;{body} = { value=5 }</msg>
+<status status="PASS" starttime="20220226 13:35:51.076" endtime="20220226 13:35:51.076"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:51.326" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 5}' 
+ </msg>
+<msg timestamp="20220226 13:35:51.326" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:52 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 5327478b6f979a4905f57306ac90bdda.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': '-VybMt8EJkfZTTqO9zftDkPZjFLspM-IBrmbgtFD-0PEBXO-28oxSQ=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:51.326" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:51.076" endtime="20220226 13:35:51.326"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:51.076" endtime="20220226 13:35:51.326"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:51.076" endtime="20220226 13:35:51.326"/>
+</iter>
+<iter>
+<var name="${rate}">6</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:51.326" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:51.326" endtime="20220226 13:35:51.326"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:51.326" level="INFO">&amp;{body} = { value=6 }</msg>
+<status status="PASS" starttime="20220226 13:35:51.326" endtime="20220226 13:35:51.326"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:51.577" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 6}' 
+ </msg>
+<msg timestamp="20220226 13:35:51.577" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:52 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 b66d2d4cfb46d641d455e6640c25f566.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'HNdnjvijMVHvu8KkkeMuUA-mbdeUG3eK_uo-8tCvA79j0OIKZnARag=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:51.577" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:51.326" endtime="20220226 13:35:51.577"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:51.326" endtime="20220226 13:35:51.577"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:51.326" endtime="20220226 13:35:51.577"/>
+</iter>
+<iter>
+<var name="${rate}">7</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:51.577" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:51.577" endtime="20220226 13:35:51.577"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:51.593" level="INFO">&amp;{body} = { value=7 }</msg>
+<status status="PASS" starttime="20220226 13:35:51.577" endtime="20220226 13:35:51.594"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:51.849" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 7}' 
+ </msg>
+<msg timestamp="20220226 13:35:51.849" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:52 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 c7331ab95afecf4071ad214632e5f042.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': '2cJTDzke3K0UOjJKnf_oV6ne63qnIlZ9FJoWrX9sqnkBUhXhuxSMcw=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:51.849" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:51.594" endtime="20220226 13:35:51.849"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:51.577" endtime="20220226 13:35:51.849"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:51.577" endtime="20220226 13:35:51.849"/>
+</iter>
+<iter>
+<var name="${rate}">8</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:51.849" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:51.849" endtime="20220226 13:35:51.849"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:51.849" level="INFO">&amp;{body} = { value=8 }</msg>
+<status status="PASS" starttime="20220226 13:35:51.849" endtime="20220226 13:35:51.849"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:52.107" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 8}' 
+ </msg>
+<msg timestamp="20220226 13:35:52.107" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:52 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 b2373cd296c22c460cd352ec0beb0b2c.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'wWzTGjTv0XqlXHumkQF3SUroJAjaa231af2s-M5NXKMZ4HTUoQQiPw=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:52.107" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:51.849" endtime="20220226 13:35:52.107"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:51.849" endtime="20220226 13:35:52.107"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:51.849" endtime="20220226 13:35:52.107"/>
+</iter>
+<iter>
+<var name="${rate}">9</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:52.107" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:52.107" endtime="20220226 13:35:52.107"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:52.107" level="INFO">&amp;{body} = { value=9 }</msg>
+<status status="PASS" starttime="20220226 13:35:52.107" endtime="20220226 13:35:52.107"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:52.365" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 9}' 
+ </msg>
+<msg timestamp="20220226 13:35:52.365" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:53 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 713ca272939518d00fa2a777781680ca.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'FYJqVeJ6x-6KWX4HmevSO2LAHWpQRbzqP5gN3vWfkb7OxXWRqG7_ag=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:52.365" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:52.107" endtime="20220226 13:35:52.365"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:52.107" endtime="20220226 13:35:52.365"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:52.107" endtime="20220226 13:35:52.365"/>
+</iter>
+<iter>
+<var name="${rate}">10</var>
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${rate}</arg>
+<arg>201</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:52.365" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:52.365" endtime="20220226 13:35:52.365"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:52.373" level="INFO">&amp;{body} = { value=10 }</msg>
+<status status="PASS" starttime="20220226 13:35:52.365" endtime="20220226 13:35:52.373"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:52.618" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '13', 'Content-Type': 'application/json'} 
+ body=b'{"value": 10}' 
+ </msg>
+<msg timestamp="20220226 13:35:52.618" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:53 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 683ff74407fd21e24c53718828996608.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'glL8UgP_zg3RnXJIWjm9btz3HflpNR_eCZdMy1wOlgLFUgK_pEqU3Q=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:52.618" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:52.373" endtime="20220226 13:35:52.618"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:52.365" endtime="20220226 13:35:52.618"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:52.365" endtime="20220226 13:35:52.618"/>
+</iter>
+<status status="PASS" starttime="20220226 13:35:49.519" endtime="20220226 13:35:52.618"/>
+</for>
+<tag>level:api</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:35:49.519" endtime="20220226 13:35:52.634"/>
+</test>
+<test id="s1-s1-s1-t4" name="TC-04 The movie rating should return a proper message">
+<kw name="Rate A Movie">
+<var>${response}</var>
+<arg>${MOVIE}[id]</arg>
+<arg>${8.0}</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:52.634" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:52.634" endtime="20220226 13:35:52.634"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:52.634" level="INFO">&amp;{body} = { value=8.0 }</msg>
+<status status="PASS" starttime="20220226 13:35:52.634" endtime="20220226 13:35:52.634"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:52.988" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '14', 'Content-Type': 'application/json'} 
+ body=b'{"value": 8.0}' 
+ </msg>
+<msg timestamp="20220226 13:35:52.988" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:53 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 f75621cd6e47ae7d0a4d07cd1877339c.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'MIo0HCqhaUnXQITHExkwWIuRUCCbTs_-QGEgfIoC-09PItXLVae17g=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:52.988" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:52.634" endtime="20220226 13:35:52.988"/>
+</kw>
+<msg timestamp="20220226 13:35:52.988" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:52.634" endtime="20220226 13:35:52.988"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>The item/record was updated successfully.</arg>
+<arg>${response.json()}[status_message]</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220226 13:35:52.988" endtime="20220226 13:35:52.988"/>
+</kw>
+<tag>level:api</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:35:52.634" endtime="20220226 13:35:52.988"/>
+</test>
+<test id="s1-s1-s1-t5" name="TC-05 Invalid rating cannot be aded to a movie">
+<kw name="Rate A Movie">
+<var>${response}</var>
+<arg>${MOVIE}[id]</arg>
+<arg>${10.1}</arg>
+<arg>400</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:53.004" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:52.988" endtime="20220226 13:35:53.004"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:53.004" level="INFO">&amp;{body} = { value=10.1 }</msg>
+<status status="PASS" starttime="20220226 13:35:53.004" endtime="20220226 13:35:53.004"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:53.350" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '15', 'Content-Type': 'application/json'} 
+ body=b'{"value": 10.1}' 
+ </msg>
+<msg timestamp="20220226 13:35:53.350" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=400, reason=Bad Request 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '112', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:54 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 64effe17e30169a2d4da2d11e4e0ebda.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': '0sQjDjdldwF9Tv7B-ci3tXbct7xIRIMbChJzfTjOAFHpXPZyCgf0kw=='} 
+ body={"success":false,"status_code":18,"status_message":"Value too high: Value must be less than, or equal to 10.0."} 
+ </msg>
+<msg timestamp="20220226 13:35:53.350" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:53.004" endtime="20220226 13:35:53.350"/>
+</kw>
+<msg timestamp="20220226 13:35:53.350" level="INFO">${response} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:52.988" endtime="20220226 13:35:53.350"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>Value too high: Value must be less than, or equal to 10.0.</arg>
+<arg>${response.json()}[status_message]</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220226 13:35:53.356" endtime="20220226 13:35:53.356"/>
+</kw>
+<tag>level:api</tag>
+<tag>type:negative</tag>
+<status status="PASS" starttime="20220226 13:35:52.988" endtime="20220226 13:35:53.356"/>
+</test>
+<test id="s1-s1-s1-t6" name="TC-06 Movie rating can be deleted">
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${9}</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:53.356" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:53.356" endtime="20220226 13:35:53.356"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:53.356" level="INFO">&amp;{body} = { value=9 }</msg>
+<status status="PASS" starttime="20220226 13:35:53.356" endtime="20220226 13:35:53.356"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:53.626" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 9}' 
+ </msg>
+<msg timestamp="20220226 13:35:53.626" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:54 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 3ffa21fde24be18d36c5d5b13a622abe.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'lG8LURx26RxLG0xbtyJ8ZMp4YqnlUupfbIV2zF8IuM7Gw3yCxZUfvA=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:53.626" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:53.356" endtime="20220226 13:35:53.626"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:53.356" endtime="20220226 13:35:53.626"/>
+</kw>
+<kw name="Delete Movie Rating">
+<arg>${MOVIE}[id]</arg>
+<arg>200</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:53.626" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:53.626" endtime="20220226 13:35:53.626"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20220226 13:35:53.886" level="INFO">DELETE Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20220226 13:35:53.886" level="INFO">DELETE Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:54 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Vary': 'Accept-Encoding', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"0566f98871ddfd7f6ade28aaefb5167d"', 'Content-Encoding': 'gzip', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 da38961a461b7c877fd77dd3469eb304.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'Helkfm243niZEDbyh0kwNpFPz24V9UJgKfCrFtbiBq2oCQbEBW2SLQ=='} 
+ body={"success":true,"status_code":13,"status_message":"The item/record was deleted successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:53.886" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:53.626" endtime="20220226 13:35:53.886"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:53.626" endtime="20220226 13:35:53.886"/>
+</kw>
+<tag>level:api</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:35:53.356" endtime="20220226 13:35:53.886"/>
+</test>
+<test id="s1-s1-s1-t7" name="TC-07 Proper status message should be returned when rating is deleted">
+<kw name="Rate A Movie">
+<arg>${MOVIE}[id]</arg>
+<arg>${9}</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:53.886" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:53.886" endtime="20220226 13:35:53.886"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{body}</var>
+<arg>value=${rating}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:53.886" level="INFO">&amp;{body} = { value=9 }</msg>
+<status status="PASS" starttime="20220226 13:35:53.886" endtime="20220226 13:35:53.886"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>json=${body}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20220226 13:35:54.151" level="INFO">POST Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '12', 'Content-Type': 'application/json'} 
+ body=b'{"value": 9}' 
+ </msg>
+<msg timestamp="20220226 13:35:54.151" level="INFO">POST Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=201, reason=Created 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Content-Length': '94', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:54 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"04302547257ccb7e68844cdd59055002"', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 713ca272939518d00fa2a777781680ca.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': '9SyzanhcKEW7qFR5VmJPSCAuEGYvj3uSXTJSAtKYKdvUbLuAF7epnQ=='} 
+ body={"success":true,"status_code":12,"status_message":"The item/record was updated successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:54.151" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:53.886" endtime="20220226 13:35:54.151"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:53.886" endtime="20220226 13:35:54.151"/>
+</kw>
+<kw name="Delete Movie Rating">
+<var>${response}</var>
+<arg>${MOVIE}[id]</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{params}</var>
+<arg>api_key=${API_KEY}</arg>
+<arg>guest_session_id=${GUEST_SESSION_ID}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220226 13:35:54.151" level="INFO">&amp;{params} = { api_key=e231ae412af0eaab685d11c26505bda6 | guest_session_id=41dcd96c69d1553918826daf8e9b57e3 }</msg>
+<status status="PASS" starttime="20220226 13:35:54.151" endtime="20220226 13:35:54.151"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}/rating</arg>
+<arg>params=${params}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20220226 13:35:54.406" level="INFO">DELETE Request : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ path_url=/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20220226 13:35:54.406" level="INFO">DELETE Response : url=https://api.themoviedb.org/3/movie/76341/rating?api_key=e231ae412af0eaab685d11c26505bda6&amp;guest_session_id=41dcd96c69d1553918826daf8e9b57e3 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:35:55 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Vary': 'Accept-Encoding', 'Cache-Control': 'public, max-age=0', 'ETag': 'W/"0566f98871ddfd7f6ade28aaefb5167d"', 'Content-Encoding': 'gzip', 'X-Cache': 'Miss from cloudfront', 'Via': '1.1 5327478b6f979a4905f57306ac90bdda.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'slsKLlH_8uEXP2TisAdUB7lfCCWkJgz8RFGZs4CtrEPyHpTNTnN8yg=='} 
+ body={"success":true,"status_code":13,"status_message":"The item/record was deleted successfully."} 
+ </msg>
+<msg timestamp="20220226 13:35:54.406" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:54.151" endtime="20220226 13:35:54.406"/>
+</kw>
+<msg timestamp="20220226 13:35:54.406" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:54.151" endtime="20220226 13:35:54.406"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>The item/record was deleted successfully.</arg>
+<arg>${response.json()}[status_message]</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220226 13:35:54.406" endtime="20220226 13:35:54.406"/>
+</kw>
+<tag>level:api</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:35:53.886" endtime="20220226 13:35:54.406"/>
+</test>
+<test id="s1-s1-s1-t8" name="TC-08 Missing ID should be handled properly">
+<kw name="Get A Movie By ID">
+<arg>${null}</arg>
+<arg>404</arg>
+<kw name="GET" library="RequestsLibrary">
+<var>${response}</var>
+<arg>${BASE_URL}/movie/${movie_id}</arg>
+<arg>params=api_key=${API_KEY}</arg>
+<arg>expected_status=${status}</arg>
+<doc>Sends a GET request.</doc>
+<msg timestamp="20220226 13:35:54.535" level="INFO">GET Request : url=https://api.themoviedb.org/3/movie/None?api_key=e231ae412af0eaab685d11c26505bda6 
+ path_url=/3/movie/None?api_key=e231ae412af0eaab685d11c26505bda6 
+ headers={'User-Agent': 'python-requests/2.27.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20220226 13:35:54.535" level="INFO">GET Response : url=https://api.themoviedb.org/3/movie/None?api_key=e231ae412af0eaab685d11c26505bda6 
+ status=404, reason=Not Found 
+ headers={'Content-Type': 'application/json;charset=utf-8', 'Transfer-Encoding': 'chunked', 'Connection': 'keep-alive', 'Date': 'Sat, 26 Feb 2022 12:06:53 GMT', 'Server': 'openresty', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, PUT, DELETE, OPTIONS', 'Access-Control-Expose-Headers': 'ETag, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Retry-After, Content-Length, Content-Range', 'Cache-Control': 'public, max-age=28800', 'X-Memc': 'MISS', 'X-Memc-Key': '408e420eaf970cc6e318e1d9e37fd5dc2f440b25', 'X-Memc-Age': '0', 'X-Memc-Expires': '15861', 'Content-Encoding': 'gzip', 'Vary': 'Accept-Encoding', 'X-Cache': 'Error from cloudfront', 'Via': '1.1 f5a41f2e2650c6e3da553e0f45e52bfa.cloudfront.net (CloudFront)', 'X-Amz-Cf-Pop': 'TXL50-P3', 'X-Amz-Cf-Id': 'xRCu_YWIovEYRvvTxiQms7LAHlNbSfStjlLNUDSMrK8y3iFNeVaRKg==', 'Age': '1742'} 
+ body={"success":false,"status_code":34,"status_message":"The resource you requested could not be found."} 
+ </msg>
+<msg timestamp="20220226 13:35:54.535" level="INFO">${response} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20220226 13:35:54.406" endtime="20220226 13:35:54.535"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:54.406" endtime="20220226 13:35:54.535"/>
+</kw>
+<tag>level:api</tag>
+<tag>type:negative</tag>
+<status status="PASS" starttime="20220226 13:35:54.406" endtime="20220226 13:35:54.535"/>
+</test>
+<status status="PASS" starttime="20220226 13:35:48.589" endtime="20220226 13:35:54.535"/>
+</suite>
+<status status="PASS" starttime="20220226 13:35:48.589" endtime="20220226 13:35:54.552"/>
+</suite>
+<suite id="s1-s2" name="Ui" source="C:\Repo\evaluation-py-robot\test_cases\ui">
+<suite id="s1-s2-s1" name="Angular" source="C:\Repo\evaluation-py-robot\test_cases\ui\angular.robot">
+<kw name="Load Page Data" type="SETUP">
+<kw name="Load Data" library="data">
+<var>${selectors}</var>
+<arg>type=selectors</arg>
+<arg>id=angular</arg>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>${EXECDIR}${/}data${/}${type}${/}${id}.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20220226 13:35:54.666" level="INFO">${json} = {'angular_logo_navbar': 'css:mat-toolbar &gt; mat-toolbar-row a.nav-link &gt; img', 'angular_logo_hero': 'css:.hero-logo', 'hero_text': 'css:.hero-headline', 'hero_button': 'css:a.hero-cta', 'title': 'css:h...</msg>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:54.666"/>
+</kw>
+<msg timestamp="20220226 13:35:54.666" level="INFO">${selectors} = {'angular_logo_navbar': 'css:mat-toolbar &gt; mat-toolbar-row a.nav-link &gt; img', 'angular_logo_hero': 'css:.hero-logo', 'hero_text': 'css:.hero-headline', 'hero_button': 'css:a.hero-cta', 'title': 'css:h...</msg>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:54.666"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${PAGE}</arg>
+<arg>${selectors}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20220226 13:35:54.666" level="INFO">${PAGE} = {'angular_logo_navbar': 'css:mat-toolbar &gt; mat-toolbar-row a.nav-link &gt; img', 'angular_logo_hero': 'css:.hero-logo', 'hero_text': 'css:.hero-headline', 'hero_button': 'css:a.hero-cta', 'title': 'css:h...</msg>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:54.666"/>
+</kw>
+<kw name="Load Data" library="data">
+<var>${texts}</var>
+<arg>type=texts</arg>
+<arg>id=angular</arg>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>${EXECDIR}${/}data${/}${type}${/}${id}.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20220226 13:35:54.666" level="INFO">${json} = {'hero': "The modern web\ndeveloper's platform", 'getting_started_title': 'Getting started with Angular', 'section': 'api', 'item': 'Directive'}</msg>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:54.666"/>
+</kw>
+<msg timestamp="20220226 13:35:54.666" level="INFO">${texts} = {'hero': "The modern web\ndeveloper's platform", 'getting_started_title': 'Getting started with Angular', 'section': 'api', 'item': 'Directive'}</msg>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:54.666"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${TEXTS}</arg>
+<arg>${texts}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20220226 13:35:54.666" level="INFO">${TEXTS} = {'hero': "The modern web\ndeveloper's platform", 'getting_started_title': 'Getting started with Angular', 'section': 'api', 'item': 'Directive'}</msg>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:54.666"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:54.666"/>
+</kw>
+<test id="s1-s2-s1-t1" name="TC-01 Checking landing page elements">
+<kw name="Given Angular.io is opened">
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20220226 13:35:54.666" level="INFO">Opening browser 'Chrome' to base url 'https://angular.io'.</msg>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:56.641"/>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20220226 13:35:56.641" endtime="20220226 13:35:56.764"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:56.764"/>
+</kw>
+<kw name="Then Element Should Be Visible" library="SeleniumLibrary">
+<arg>${PAGE}[angular_logo_navbar]</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:35:56.791" level="INFO">Element 'css:mat-toolbar &gt; mat-toolbar-row a.nav-link &gt; img' is displayed.</msg>
+<status status="PASS" starttime="20220226 13:35:56.765" endtime="20220226 13:35:56.791"/>
+</kw>
+<kw name="And Element Should Be Visible" library="SeleniumLibrary">
+<arg>${PAGE}[angular_logo_hero]</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:35:56.805" level="INFO">Element 'css:.hero-logo' is displayed.</msg>
+<status status="PASS" starttime="20220226 13:35:56.791" endtime="20220226 13:35:56.814"/>
+</kw>
+<kw name="And Element Text Should Be" library="SeleniumLibrary">
+<arg>${PAGE}[hero_text]</arg>
+<arg>${TEXTS}[hero]</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<msg timestamp="20220226 13:35:56.815" level="INFO">Verifying element 'css:.hero-headline' contains exact text 'The modern web
+developer's platform'.</msg>
+<status status="PASS" starttime="20220226 13:35:56.815" endtime="20220226 13:35:56.827"/>
+</kw>
+<kw name="And Element Should Be Visible" library="SeleniumLibrary">
+<arg>${PAGE}[hero_button]</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:35:56.845" level="INFO">Element 'css:a.hero-cta' is displayed.</msg>
+<status status="PASS" starttime="20220226 13:35:56.835" endtime="20220226 13:35:56.845"/>
+</kw>
+<kw name="When Click Element" library="SeleniumLibrary">
+<arg>${PAGE}[hero_button]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20220226 13:35:56.845" level="INFO">Clicking element 'css:a.hero-cta'.</msg>
+<status status="PASS" starttime="20220226 13:35:56.845" endtime="20220226 13:35:56.908"/>
+</kw>
+<kw name="And Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>${PAGE}[title]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20220226 13:35:56.909" endtime="20220226 13:35:57.478"/>
+</kw>
+<kw name="Then Location Should Be" library="SeleniumLibrary">
+<arg>${BASE_URL}/start</arg>
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<msg timestamp="20220226 13:35:57.489" level="INFO">Current location is 'https://angular.io/start'.</msg>
+<status status="PASS" starttime="20220226 13:35:57.483" endtime="20220226 13:35:57.490"/>
+</kw>
+<kw name="And Element Text Should Be" library="SeleniumLibrary">
+<arg>${PAGE}[title]</arg>
+<arg>${TEXTS}[getting_started_title]</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<msg timestamp="20220226 13:35:57.492" level="INFO">Verifying element 'css:h1' contains exact text 'Getting started with Angular'.</msg>
+<status status="PASS" starttime="20220226 13:35:57.490" endtime="20220226 13:35:57.516"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220226 13:35:57.516" endtime="20220226 13:35:59.731"/>
+</kw>
+<tag>level:ui</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:35:54.666" endtime="20220226 13:35:59.731"/>
+</test>
+<test id="s1-s2-s1-t2" name="TC-02 Checking search field on the landing page">
+<kw name="Given Angular.io is opened">
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${BASE_URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20220226 13:35:59.734" level="INFO">Opening browser 'Chrome' to base url 'https://angular.io'.</msg>
+<status status="PASS" starttime="20220226 13:35:59.733" endtime="20220226 13:36:01.868"/>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20220226 13:36:01.868" endtime="20220226 13:36:01.989"/>
+</kw>
+<status status="PASS" starttime="20220226 13:35:59.733" endtime="20220226 13:36:01.990"/>
+</kw>
+<kw name="Then Element Should Be Visible" library="SeleniumLibrary">
+<arg>${PAGE}[search_input]</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:36:02.026" level="INFO">Element 'css:.search-container input[type=search]' is displayed.</msg>
+<status status="PASS" starttime="20220226 13:36:01.990" endtime="20220226 13:36:02.026"/>
+</kw>
+<kw name="And Element Text Should be" library="SeleniumLibrary">
+<arg>${PAGE}[search_input]</arg>
+<arg>${EMPTY}</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<msg timestamp="20220226 13:36:02.028" level="INFO">Verifying element 'css:.search-container input[type=search]' contains exact text ''.</msg>
+<status status="PASS" starttime="20220226 13:36:02.027" endtime="20220226 13:36:02.053"/>
+</kw>
+<kw name="And Element Attribute Value Should Be" library="SeleniumLibrary">
+<arg>${PAGE}[search_input]</arg>
+<arg>placeholder</arg>
+<arg>Search</arg>
+<doc>Verifies element identified by ``locator`` contains expected attribute value.</doc>
+<msg timestamp="20220226 13:36:02.068" level="INFO">Element 'css:.search-container input[type=search]' attribute 'placeholder' contains value 'Search'.</msg>
+<status status="PASS" starttime="20220226 13:36:02.055" endtime="20220226 13:36:02.068"/>
+</kw>
+<kw name="When Click Element" library="SeleniumLibrary">
+<arg>${PAGE}[search_input]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20220226 13:36:02.076" level="INFO">Clicking element 'css:.search-container input[type=search]'.</msg>
+<status status="PASS" starttime="20220226 13:36:02.075" endtime="20220226 13:36:02.122"/>
+</kw>
+<kw name="And Input Text" library="SeleniumLibrary">
+<arg>${PAGE}[search_input]</arg>
+<arg>directive</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20220226 13:36:02.123" level="INFO">Typing text 'directive' into text field 'css:.search-container input[type=search]'.</msg>
+<status status="PASS" starttime="20220226 13:36:02.123" endtime="20220226 13:36:02.200"/>
+</kw>
+<kw name="Then Element Should Be Visible" library="SeleniumLibrary">
+<arg>${PAGE}[search_clear_icon]</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:36:02.224" level="INFO">Element 'css:.search-container mat-icon' is displayed.</msg>
+<status status="PASS" starttime="20220226 13:36:02.201" endtime="20220226 13:36:02.224"/>
+</kw>
+<kw name="And Menu Item Should Be In Section">
+<arg>${TEXTS}[item]</arg>
+<arg>${TEXTS}[section]</arg>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>${PAGE}[search_results]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20220226 13:36:02.226" endtime="20220226 13:36:02.683"/>
+</kw>
+<kw name="Replace String" library="String">
+<var>${section_selector}</var>
+<arg>${PAGE}[section_by_text]</arg>
+<arg>TEXT</arg>
+<arg>${section}</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<msg timestamp="20220226 13:36:02.683" level="INFO">${section_selector} = xpath://*[contains(@class,"search-area")][./h3[starts-with(., "api")]]</msg>
+<status status="PASS" starttime="20220226 13:36:02.683" endtime="20220226 13:36:02.683"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>${section_selector}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20220226 13:36:02.683" endtime="20220226 13:36:03.150"/>
+</kw>
+<kw name="Replace String" library="String">
+<var>${item_selector}</var>
+<arg>${PAGE}[item_by_text]</arg>
+<arg>TEXT</arg>
+<arg>${item}</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<msg timestamp="20220226 13:36:03.153" level="INFO">${item_selector} = xpath://*[contains(@class,"search-page")][.//span[normalize-space(.)="Directive"]]/a</msg>
+<status status="PASS" starttime="20220226 13:36:03.150" endtime="20220226 13:36:03.153"/>
+</kw>
+<kw name="Element Should Be Visible" library="SeleniumLibrary">
+<arg>${section_selector} &gt;&gt; ${item_selector}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:36:03.189" level="INFO">Element 'xpath://*[contains(@class,"search-area")][./h3[starts-with(., "api")]] &gt;&gt; xpath://*[contains(@class,"search-page")][.//span[normalize-space(.)="Directive"]]/a' is displayed.</msg>
+<status status="PASS" starttime="20220226 13:36:03.153" endtime="20220226 13:36:03.191"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:02.225" endtime="20220226 13:36:03.191"/>
+</kw>
+<kw name="When Menu Item Is Clicked In Section">
+<arg>${TEXTS}[item]</arg>
+<arg>${TEXTS}[section]</arg>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>${PAGE}[search_results]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20220226 13:36:03.193" endtime="20220226 13:36:03.214"/>
+</kw>
+<kw name="Replace String" library="String">
+<var>${section_selector}</var>
+<arg>${PAGE}[section_by_text]</arg>
+<arg>TEXT</arg>
+<arg>${section}</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<msg timestamp="20220226 13:36:03.214" level="INFO">${section_selector} = xpath://*[contains(@class,"search-area")][./h3[starts-with(., "api")]]</msg>
+<status status="PASS" starttime="20220226 13:36:03.214" endtime="20220226 13:36:03.215"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>${section_selector}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20220226 13:36:03.215" endtime="20220226 13:36:03.239"/>
+</kw>
+<kw name="Replace String" library="String">
+<var>${item_selector}</var>
+<arg>${PAGE}[item_by_text]</arg>
+<arg>TEXT</arg>
+<arg>${item}</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<msg timestamp="20220226 13:36:03.240" level="INFO">${item_selector} = xpath://*[contains(@class,"search-page")][.//span[normalize-space(.)="Directive"]]/a</msg>
+<status status="PASS" starttime="20220226 13:36:03.239" endtime="20220226 13:36:03.240"/>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>${section_selector} &gt;&gt; ${item_selector}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20220226 13:36:03.241" level="INFO">Clicking element 'xpath://*[contains(@class,"search-area")][./h3[starts-with(., "api")]] &gt;&gt; xpath://*[contains(@class,"search-page")][.//span[normalize-space(.)="Directive"]]/a'.</msg>
+<status status="PASS" starttime="20220226 13:36:03.240" endtime="20220226 13:36:03.315"/>
+</kw>
+<kw name="Wait Until Location Contains" library="SeleniumLibrary">
+<arg>${item}</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="PASS" starttime="20220226 13:36:03.316" endtime="20220226 13:36:03.321"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:03.193" endtime="20220226 13:36:03.321"/>
+</kw>
+<kw name="Then Location Should Be" library="SeleniumLibrary">
+<arg>${BASE_URL}/api/core/${TEXTS}[item]</arg>
+<doc>Verifies that the current URL is exactly ``url``.</doc>
+<msg timestamp="20220226 13:36:03.327" level="INFO">Current location is 'https://angular.io/api/core/Directive'.</msg>
+<status status="PASS" starttime="20220226 13:36:03.322" endtime="20220226 13:36:03.327"/>
+</kw>
+<kw name="And Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>${PAGE}[title]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:36:03.897" level="INFO">Suppressing StaleElementReferenceException from Selenium.</msg>
+<status status="PASS" starttime="20220226 13:36:03.327" endtime="20220226 13:36:04.144"/>
+</kw>
+<kw name="And Element Text Should Be" library="SeleniumLibrary">
+<arg>${PAGE}[title]</arg>
+<arg>${TEXTS}[item]</arg>
+<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
+<msg timestamp="20220226 13:36:04.144" level="INFO">Verifying element 'css:h1' contains exact text 'Directive'.</msg>
+<status status="PASS" starttime="20220226 13:36:04.144" endtime="20220226 13:36:04.170"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220226 13:36:04.174" endtime="20220226 13:36:06.378"/>
+</kw>
+<tag>level:ui</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:35:59.733" endtime="20220226 13:36:06.378"/>
+</test>
+<status status="PASS" starttime="20220226 13:35:54.555" endtime="20220226 13:36:06.380"/>
+</suite>
+<suite id="s1-s2-s2" name="Bootstrap" source="C:\Repo\evaluation-py-robot\test_cases\ui\bootstrap.robot">
+<kw name="Load Page Data" type="SETUP">
+<kw name="Load Data" library="data">
+<var>${selectors}</var>
+<arg>type=selectors</arg>
+<arg>id=bootstrap</arg>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>${EXECDIR}${/}data${/}${type}${/}${id}.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20220226 13:36:06.455" level="INFO">${json} = {'readonly_input': 'css:.form-control[type="text"][readonly]', 'default_checkbox': 'id:defaultCheck1', 'disabled_checkbox': 'id:defaultCheck2', 'default_radio': 'id:exampleRadios1', 'second_default_ra...</msg>
+<status status="PASS" starttime="20220226 13:36:06.455" endtime="20220226 13:36:06.455"/>
+</kw>
+<msg timestamp="20220226 13:36:06.455" level="INFO">${selectors} = {'readonly_input': 'css:.form-control[type="text"][readonly]', 'default_checkbox': 'id:defaultCheck1', 'disabled_checkbox': 'id:defaultCheck2', 'default_radio': 'id:exampleRadios1', 'second_default_ra...</msg>
+<status status="PASS" starttime="20220226 13:36:06.455" endtime="20220226 13:36:06.455"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${PAGE}</arg>
+<arg>${selectors}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20220226 13:36:06.455" level="INFO">${PAGE} = {'readonly_input': 'css:.form-control[type="text"][readonly]', 'default_checkbox': 'id:defaultCheck1', 'disabled_checkbox': 'id:defaultCheck2', 'default_radio': 'id:exampleRadios1', 'second_default_ra...</msg>
+<status status="PASS" starttime="20220226 13:36:06.455" endtime="20220226 13:36:06.455"/>
+</kw>
+<kw name="Load Data" library="data">
+<var>${texts}</var>
+<arg>type=texts</arg>
+<arg>id=bootstrap</arg>
+<kw name="Load JSON From File" library="JSONLibrary">
+<var>${json}</var>
+<arg>${EXECDIR}${/}data${/}${type}${/}${id}.json</arg>
+<doc>Load JSON from file.</doc>
+<msg timestamp="20220226 13:36:06.455" level="INFO">${json} = {'forms_title': 'Forms Â· Bootstrap', 'radio_group': 'exampleRadios', 'primary_button': 'Primary button'}</msg>
+<status status="PASS" starttime="20220226 13:36:06.455" endtime="20220226 13:36:06.455"/>
+</kw>
+<msg timestamp="20220226 13:36:06.455" level="INFO">${texts} = {'forms_title': 'Forms Â· Bootstrap', 'radio_group': 'exampleRadios', 'primary_button': 'Primary button'}</msg>
+<status status="PASS" starttime="20220226 13:36:06.455" endtime="20220226 13:36:06.455"/>
+</kw>
+<kw name="Set Suite Variable" library="BuiltIn">
+<arg>${TEXTS}</arg>
+<arg>${texts}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<msg timestamp="20220226 13:36:06.455" level="INFO">${TEXTS} = {'forms_title': 'Forms Â· Bootstrap', 'radio_group': 'exampleRadios', 'primary_button': 'Primary button'}</msg>
+<status status="PASS" starttime="20220226 13:36:06.455" endtime="20220226 13:36:06.455"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:06.455" endtime="20220226 13:36:06.455"/>
+</kw>
+<test id="s1-s2-s2-t1" name="TC-03 Checking form elements">
+<kw name="Given Bootstrap is opened">
+<arg>forms</arg>
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${BASE_URL}/components/${component}/#${hash}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20220226 13:36:06.460" level="INFO">Opening browser 'Chrome' to base url 'https://getbootstrap.com/docs/4.4/components/forms/#'.</msg>
+<status status="PASS" starttime="20220226 13:36:06.460" endtime="20220226 13:36:09.039"/>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20220226 13:36:09.039" endtime="20220226 13:36:09.202"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:06.460" endtime="20220226 13:36:09.202"/>
+</kw>
+<kw name="Then Title Should Be" library="SeleniumLibrary">
+<arg>Forms · Bootstrap</arg>
+<doc>Verifies that the current page title equals ``title``.</doc>
+<msg timestamp="20220226 13:36:09.210" level="INFO">Page title is 'Forms · Bootstrap'.</msg>
+<status status="PASS" starttime="20220226 13:36:09.203" endtime="20220226 13:36:09.210"/>
+</kw>
+<kw name="And Element Should Not Be In View" library="element">
+<arg>${PAGE}[readonly_input]</arg>
+<kw name="Is Element In View" library="element">
+<var>${visible}</var>
+<arg>${element}</arg>
+<kw name="Get File" library="OperatingSystem">
+<var>${js}</var>
+<arg>resources${/}is_in_viewport.js</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20220226 13:36:09.211" level="INFO" html="true">Getting file '&lt;a href="file://C:\Repo\evaluation-py-robot\resources\is_in_viewport.js"&gt;C:\Repo\evaluation-py-robot\resources\is_in_viewport.js&lt;/a&gt;'.</msg>
+<msg timestamp="20220226 13:36:09.211" level="INFO">${js} = /*
+ * Obtained from: https://gomakethings.com/how-to-test-if-an-element-is-in-the-viewport-with-vanilla-javascript/
+ * And updated to handle partial containment.
+ */
+var isInViewport = function (elem)...</msg>
+<status status="PASS" starttime="20220226 13:36:09.211" endtime="20220226 13:36:09.211"/>
+</kw>
+<kw name="Execute Javascript" library="SeleniumLibrary">
+<var>${visible}</var>
+<arg>${js} return isInViewport(arguments[0]);</arg>
+<arg>ARGUMENTS</arg>
+<arg>${element}</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<msg timestamp="20220226 13:36:09.211" level="INFO">Executing JavaScript:
+/*
+ * Obtained from: https://gomakethings.com/how-to-test-if-an-element-is-in-the-viewport-with-vanilla-javascript/
+ * And updated to handle partial containment.
+ */
+var isInViewport = function (elem) {
+    if (typeof elem === "string") {
+        elem = document.querySelector(elem.replace("css:", ""))
+    }
+    var bounding = elem.getBoundingClientRect();
+    var top = 0, bottom = window.innerHeight || document.documentElement.clientHeight;
+    var left = 0, right = window.innerWidth || document.documentElement.clientWidth;
+    return (
+      (bounding.top &gt;= top &amp;&amp; bounding.top &lt; bottom) ||
+      (bounding.bottom &gt; top &amp;&amp; bounding.bottom &lt;= bottom)
+    ) &amp;&amp; (
+      (bounding.left &gt;= left &amp;&amp; bounding.left &lt; right) ||
+      (bounding.right &gt; left &amp;&amp; bounding.right &lt;= right)
+    );
+};
+ return isInViewport(arguments[0]);
+By using argument:
+'css:.form-control[type="text"][readonly]'</msg>
+<msg timestamp="20220226 13:36:09.220" level="INFO">${visible} = False</msg>
+<status status="PASS" starttime="20220226 13:36:09.211" endtime="20220226 13:36:09.220"/>
+</kw>
+<msg timestamp="20220226 13:36:09.220" level="INFO">${visible} = False</msg>
+<status status="PASS" starttime="20220226 13:36:09.211" endtime="20220226 13:36:09.220"/>
+</kw>
+<kw name="Should Not Be True" library="BuiltIn">
+<arg>${visible}</arg>
+<doc>Fails if the given condition is true.</doc>
+<status status="PASS" starttime="20220226 13:36:09.220" endtime="20220226 13:36:09.220"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:09.211" endtime="20220226 13:36:09.220"/>
+</kw>
+<kw name="When Scroll Element Into View" library="SeleniumLibrary">
+<arg>${PAGE}[readonly_input]</arg>
+<doc>Scrolls the element identified by ``locator`` into view.</doc>
+<status status="PASS" starttime="20220226 13:36:09.220" endtime="20220226 13:36:09.510"/>
+</kw>
+<kw name="And Sleep" library="BuiltIn">
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20220226 13:36:11.516" level="INFO">Slept 2 seconds</msg>
+<status status="PASS" starttime="20220226 13:36:09.511" endtime="20220226 13:36:11.516"/>
+</kw>
+<kw name="Then Element Should Be In View" library="element">
+<arg>${PAGE}[readonly_input]</arg>
+<kw name="Is Element In View" library="element">
+<var>${visible}</var>
+<arg>${element}</arg>
+<kw name="Get File" library="OperatingSystem">
+<var>${js}</var>
+<arg>resources${/}is_in_viewport.js</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20220226 13:36:11.518" level="INFO" html="true">Getting file '&lt;a href="file://C:\Repo\evaluation-py-robot\resources\is_in_viewport.js"&gt;C:\Repo\evaluation-py-robot\resources\is_in_viewport.js&lt;/a&gt;'.</msg>
+<msg timestamp="20220226 13:36:11.518" level="INFO">${js} = /*
+ * Obtained from: https://gomakethings.com/how-to-test-if-an-element-is-in-the-viewport-with-vanilla-javascript/
+ * And updated to handle partial containment.
+ */
+var isInViewport = function (elem)...</msg>
+<status status="PASS" starttime="20220226 13:36:11.517" endtime="20220226 13:36:11.518"/>
+</kw>
+<kw name="Execute Javascript" library="SeleniumLibrary">
+<var>${visible}</var>
+<arg>${js} return isInViewport(arguments[0]);</arg>
+<arg>ARGUMENTS</arg>
+<arg>${element}</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<msg timestamp="20220226 13:36:11.519" level="INFO">Executing JavaScript:
+/*
+ * Obtained from: https://gomakethings.com/how-to-test-if-an-element-is-in-the-viewport-with-vanilla-javascript/
+ * And updated to handle partial containment.
+ */
+var isInViewport = function (elem) {
+    if (typeof elem === "string") {
+        elem = document.querySelector(elem.replace("css:", ""))
+    }
+    var bounding = elem.getBoundingClientRect();
+    var top = 0, bottom = window.innerHeight || document.documentElement.clientHeight;
+    var left = 0, right = window.innerWidth || document.documentElement.clientWidth;
+    return (
+      (bounding.top &gt;= top &amp;&amp; bounding.top &lt; bottom) ||
+      (bounding.bottom &gt; top &amp;&amp; bounding.bottom &lt;= bottom)
+    ) &amp;&amp; (
+      (bounding.left &gt;= left &amp;&amp; bounding.left &lt; right) ||
+      (bounding.right &gt; left &amp;&amp; bounding.right &lt;= right)
+    );
+};
+ return isInViewport(arguments[0]);
+By using argument:
+'css:.form-control[type="text"][readonly]'</msg>
+<msg timestamp="20220226 13:36:11.524" level="INFO">${visible} = True</msg>
+<status status="PASS" starttime="20220226 13:36:11.519" endtime="20220226 13:36:11.524"/>
+</kw>
+<msg timestamp="20220226 13:36:11.525" level="INFO">${visible} = True</msg>
+<status status="PASS" starttime="20220226 13:36:11.517" endtime="20220226 13:36:11.525"/>
+</kw>
+<kw name="Should Be True" library="BuiltIn">
+<arg>${visible}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" starttime="20220226 13:36:11.526" endtime="20220226 13:36:11.527"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:11.517" endtime="20220226 13:36:11.527"/>
+</kw>
+<kw name="And Element Should Be ReadOnly" library="element">
+<arg>${PAGE}[readonly_input]</arg>
+<kw name="Get Element Attribute" library="SeleniumLibrary">
+<var>${readonly}</var>
+<arg>${element}</arg>
+<arg>readonly</arg>
+<doc>Returns the value of ``attribute`` from the element ``locator``.</doc>
+<msg timestamp="20220226 13:36:11.550" level="INFO">${readonly} = true</msg>
+<status status="PASS" starttime="20220226 13:36:11.528" endtime="20220226 13:36:11.550"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${readonly}</arg>
+<arg>true</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20220226 13:36:11.550" endtime="20220226 13:36:11.550"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:11.528" endtime="20220226 13:36:11.550"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220226 13:36:11.550" endtime="20220226 13:36:13.709"/>
+</kw>
+<tag>level:ui</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:36:06.455" endtime="20220226 13:36:13.709"/>
+</test>
+<test id="s1-s2-s2-t2" name="TC-04 Interaction with checkbox form elements">
+<kw name="Given Bootstrap is opened">
+<arg>forms</arg>
+<arg>checkboxes-and-radios</arg>
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${BASE_URL}/components/${component}/#${hash}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20220226 13:36:13.709" level="INFO">Opening browser 'Chrome' to base url 'https://getbootstrap.com/docs/4.4/components/forms/#checkboxes-and-radios'.</msg>
+<status status="PASS" starttime="20220226 13:36:13.709" endtime="20220226 13:36:15.686"/>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20220226 13:36:15.693" endtime="20220226 13:36:15.820"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:13.709" endtime="20220226 13:36:15.820"/>
+</kw>
+<kw name="Then Element Should Be Enabled" library="SeleniumLibrary">
+<arg>${PAGE}[default_checkbox]</arg>
+<doc>Verifies that element identified by ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20220226 13:36:15.820" endtime="20220226 13:36:15.847"/>
+</kw>
+<kw name="And Element Should Be Disabled" library="SeleniumLibrary">
+<arg>${PAGE}[disabled_checkbox]</arg>
+<doc>Verifies that element identified by ``locator`` is disabled.</doc>
+<status status="PASS" starttime="20220226 13:36:15.847" endtime="20220226 13:36:15.868"/>
+</kw>
+<kw name="And Checkbox Should Not Be Selected" library="SeleniumLibrary">
+<arg>${PAGE}[default_checkbox]</arg>
+<doc>Verifies checkbox ``locator`` is not selected/checked.</doc>
+<msg timestamp="20220226 13:36:15.868" level="INFO">Verifying checkbox 'id:defaultCheck1' is not selected.</msg>
+<status status="PASS" starttime="20220226 13:36:15.868" endtime="20220226 13:36:15.896"/>
+</kw>
+<kw name="When Select Checkbox" library="SeleniumLibrary">
+<arg>${PAGE}[default_checkbox]</arg>
+<doc>Selects the checkbox identified by ``locator``.</doc>
+<msg timestamp="20220226 13:36:15.896" level="INFO">Selecting checkbox 'id:defaultCheck1'.</msg>
+<status status="PASS" starttime="20220226 13:36:15.896" endtime="20220226 13:36:15.958"/>
+</kw>
+<kw name="Then Checkbox Should Be Selected" library="SeleniumLibrary">
+<arg>${PAGE}[default_checkbox]</arg>
+<doc>Verifies checkbox ``locator`` is selected/checked.</doc>
+<msg timestamp="20220226 13:36:15.960" level="INFO">Verifying checkbox 'id:defaultCheck1' is selected.</msg>
+<status status="PASS" starttime="20220226 13:36:15.960" endtime="20220226 13:36:15.983"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220226 13:36:15.983" endtime="20220226 13:36:18.143"/>
+</kw>
+<tag>level:ui</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:36:13.709" endtime="20220226 13:36:18.143"/>
+</test>
+<test id="s1-s2-s2-t3" name="TC-05 Interaction with radio form elements">
+<kw name="Given Bootstrap is opened">
+<arg>forms</arg>
+<arg>checkboxes-and-radios</arg>
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${BASE_URL}/components/${component}/#${hash}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20220226 13:36:18.146" level="INFO">Opening browser 'Chrome' to base url 'https://getbootstrap.com/docs/4.4/components/forms/#checkboxes-and-radios'.</msg>
+<status status="PASS" starttime="20220226 13:36:18.146" endtime="20220226 13:36:20.210"/>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20220226 13:36:20.210" endtime="20220226 13:36:20.337"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:18.146" endtime="20220226 13:36:20.337"/>
+</kw>
+<kw name="Then Element Should Be Enabled" library="SeleniumLibrary">
+<arg>${PAGE}[default_radio]</arg>
+<doc>Verifies that element identified by ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20220226 13:36:20.337" endtime="20220226 13:36:20.363"/>
+</kw>
+<kw name="And Element Should Be Disabled" library="SeleniumLibrary">
+<arg>${PAGE}[disabled_radio]</arg>
+<doc>Verifies that element identified by ``locator`` is disabled.</doc>
+<status status="PASS" starttime="20220226 13:36:20.371" endtime="20220226 13:36:20.380"/>
+</kw>
+<kw name="And Radio Button Should Be Set To" library="SeleniumLibrary">
+<arg>${TEXTS}[radio_group]</arg>
+<arg>option1</arg>
+<doc>Verifies radio button group ``group_name`` is set to ``value``.</doc>
+<msg timestamp="20220226 13:36:20.380" level="INFO">Verifying radio button 'exampleRadios' has selection 'option1'.</msg>
+<status status="PASS" starttime="20220226 13:36:20.380" endtime="20220226 13:36:20.413"/>
+</kw>
+<kw name="When Click Element" library="SeleniumLibrary">
+<arg>${PAGE}[second_default_radio]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20220226 13:36:20.413" level="INFO">Clicking element 'id:exampleRadios2'.</msg>
+<status status="PASS" starttime="20220226 13:36:20.413" endtime="20220226 13:36:20.465"/>
+</kw>
+<kw name="Then Radio Button Should Be Set To" library="SeleniumLibrary">
+<arg>${TEXTS}[radio_group]</arg>
+<arg>option2</arg>
+<doc>Verifies radio button group ``group_name`` is set to ``value``.</doc>
+<msg timestamp="20220226 13:36:20.466" level="INFO">Verifying radio button 'exampleRadios' has selection 'option2'.</msg>
+<status status="PASS" starttime="20220226 13:36:20.466" endtime="20220226 13:36:20.497"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220226 13:36:20.497" endtime="20220226 13:36:22.641"/>
+</kw>
+<tag>level:ui</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:36:18.146" endtime="20220226 13:36:22.642"/>
+</test>
+<test id="s1-s2-s2-t4" name="TC-06 Checking button form elements">
+<kw name="Given Bootstrap is opened">
+<arg>buttons</arg>
+<arg>disabled-state</arg>
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${BASE_URL}/components/${component}/#${hash}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20220226 13:36:22.646" level="INFO">Opening browser 'Chrome' to base url 'https://getbootstrap.com/docs/4.4/components/buttons/#disabled-state'.</msg>
+<status status="PASS" starttime="20220226 13:36:22.646" endtime="20220226 13:36:24.430"/>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20220226 13:36:24.436" endtime="20220226 13:36:24.561"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:22.645" endtime="20220226 13:36:24.561"/>
+</kw>
+<kw name="Then Page Should Contain Button With Text" library="element">
+<arg>${TEXTS}[primary_button]</arg>
+<kw name="Replace String" library="String">
+<var>${selector}</var>
+<arg>xpath://button[normalize-space(.)="TEXT"]</arg>
+<arg>TEXT</arg>
+<arg>${text}</arg>
+<doc>Replaces ``search_for`` in the given ``string`` with ``replace_with``.</doc>
+<msg timestamp="20220226 13:36:24.561" level="INFO">${selector} = xpath://button[normalize-space(.)="Primary button"]</msg>
+<status status="PASS" starttime="20220226 13:36:24.561" endtime="20220226 13:36:24.561"/>
+</kw>
+<kw name="Element Should Be Visible" library="SeleniumLibrary">
+<arg>${selector}</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:36:24.585" level="INFO">Element 'xpath://button[normalize-space(.)="Primary button"]' is displayed.</msg>
+<status status="PASS" starttime="20220226 13:36:24.561" endtime="20220226 13:36:24.585"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:24.561" endtime="20220226 13:36:24.585"/>
+</kw>
+<kw name="And Element Should Be Disabled" library="SeleniumLibrary">
+<arg>${PAGE}[primary_button]</arg>
+<doc>Verifies that element identified by ``locator`` is disabled.</doc>
+<status status="PASS" starttime="20220226 13:36:24.590" endtime="20220226 13:36:24.596"/>
+</kw>
+<kw name="When Page Is Scrolled Down By Page" library="element">
+<arg>${1}</arg>
+<kw name="Get File" library="OperatingSystem">
+<var>${js}</var>
+<arg>resources${/}scroll_by_page.js</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20220226 13:36:24.596" level="INFO" html="true">Getting file '&lt;a href="file://C:\Repo\evaluation-py-robot\resources\scroll_by_page.js"&gt;C:\Repo\evaluation-py-robot\resources\scroll_by_page.js&lt;/a&gt;'.</msg>
+<msg timestamp="20220226 13:36:24.596" level="INFO">${js} = var scrollByPage = function (n) {
+  var height = window.innerHeight || document.documentElement.clientHeight;
+  document.documentElement.scrollTop += (n || 1) * height;
+};</msg>
+<status status="PASS" starttime="20220226 13:36:24.596" endtime="20220226 13:36:24.596"/>
+</kw>
+<kw name="Execute Javascript" library="SeleniumLibrary">
+<arg>${js} scrollByPage(arguments[0]);</arg>
+<arg>ARGUMENTS</arg>
+<arg>${n}</arg>
+<doc>Executes the given JavaScript code with possible arguments.</doc>
+<msg timestamp="20220226 13:36:24.596" level="INFO">Executing JavaScript:
+var scrollByPage = function (n) {
+  var height = window.innerHeight || document.documentElement.clientHeight;
+  document.documentElement.scrollTop += (n || 1) * height;
+}; scrollByPage(arguments[0]);
+By using argument:
+'1'</msg>
+<status status="PASS" starttime="20220226 13:36:24.596" endtime="20220226 13:36:24.611"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:24.596" endtime="20220226 13:36:24.612"/>
+</kw>
+<kw name="Then Element Should Be Enabled" library="SeleniumLibrary">
+<arg>${PAGE}[primary_link_button]</arg>
+<doc>Verifies that element identified by ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20220226 13:36:24.612" endtime="20220226 13:36:24.643"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220226 13:36:24.643" endtime="20220226 13:36:26.779"/>
+</kw>
+<tag>level:ui</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:36:22.643" endtime="20220226 13:36:26.779"/>
+</test>
+<test id="s1-s2-s2-t5" name="TC-07 Checking select form elements">
+<kw name="Given Bootstrap is opened">
+<arg>forms</arg>
+<arg>form-controls</arg>
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${BASE_URL}/components/${component}/#${hash}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20220226 13:36:26.779" level="INFO">Opening browser 'Chrome' to base url 'https://getbootstrap.com/docs/4.4/components/forms/#form-controls'.</msg>
+<status status="PASS" starttime="20220226 13:36:26.779" endtime="20220226 13:36:28.846"/>
+</kw>
+<kw name="Maximize Browser Window" library="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" starttime="20220226 13:36:28.846" endtime="20220226 13:36:28.967"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:26.779" endtime="20220226 13:36:28.968"/>
+</kw>
+<kw name="Then Element Should Be Visible" library="SeleniumLibrary">
+<arg>${PAGE}[example_select]</arg>
+<doc>Verifies that the element identified by ``locator`` is visible.</doc>
+<msg timestamp="20220226 13:36:28.993" level="INFO">Element 'id:exampleFormControlSelect1' is displayed.</msg>
+<status status="PASS" starttime="20220226 13:36:28.968" endtime="20220226 13:36:28.993"/>
+</kw>
+<kw name="And Element Should Be A Multi Select" library="element">
+<arg>${PAGE}[example_multi_select]</arg>
+<kw name="Get Element Attribute" library="SeleniumLibrary">
+<var>${multiple}</var>
+<arg>${element}</arg>
+<arg>multiple</arg>
+<doc>Returns the value of ``attribute`` from the element ``locator``.</doc>
+<msg timestamp="20220226 13:36:29.015" level="INFO">${multiple} = true</msg>
+<status status="PASS" starttime="20220226 13:36:28.993" endtime="20220226 13:36:29.015"/>
+</kw>
+<kw name="Should Be Equal" library="BuiltIn">
+<arg>${multiple}</arg>
+<arg>true</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" starttime="20220226 13:36:29.015" endtime="20220226 13:36:29.015"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:28.993" endtime="20220226 13:36:29.015"/>
+</kw>
+<kw name="And List Selection Should Be" library="SeleniumLibrary">
+<arg>${PAGE}[example_select]</arg>
+<arg>1</arg>
+<doc>Verifies selection list ``locator`` has ``expected`` options selected.</doc>
+<msg timestamp="20220226 13:36:29.023" level="INFO">Verifying list 'id:exampleFormControlSelect1' has option [ 1 ] selected.</msg>
+<msg timestamp="20220226 13:36:29.031" level="INFO">Current page contains list 'id:exampleFormControlSelect1'.</msg>
+<status status="PASS" starttime="20220226 13:36:29.023" endtime="20220226 13:36:29.114"/>
+</kw>
+<kw name="And List Should Not Have Option" library="element">
+<arg>${PAGE}[example_select]</arg>
+<arg>hello</arg>
+<kw name="Get List Items" library="SeleniumLibrary">
+<var>${labels}</var>
+<arg>${list}</arg>
+<doc>Returns all labels or values of selection list ``locator``.</doc>
+<msg timestamp="20220226 13:36:29.193" level="INFO">${labels} = ['1', '2', '3', '4', '5']</msg>
+<status status="PASS" starttime="20220226 13:36:29.114" endtime="20220226 13:36:29.193"/>
+</kw>
+<kw name="List Should Not Contain Value" library="Collections">
+<arg>${labels}</arg>
+<arg>${text}</arg>
+<doc>Fails if the ``value`` is found from ``list``.</doc>
+<status status="PASS" starttime="20220226 13:36:29.193" endtime="20220226 13:36:29.193"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:29.114" endtime="20220226 13:36:29.193"/>
+</kw>
+<kw name="And List Should Have Option" library="element">
+<arg>${PAGE}[example_select]</arg>
+<arg>2</arg>
+<kw name="Get List Items" library="SeleniumLibrary">
+<var>${labels}</var>
+<arg>${list}</arg>
+<doc>Returns all labels or values of selection list ``locator``.</doc>
+<msg timestamp="20220226 13:36:29.239" level="INFO">${labels} = ['1', '2', '3', '4', '5']</msg>
+<status status="PASS" starttime="20220226 13:36:29.193" endtime="20220226 13:36:29.239"/>
+</kw>
+<kw name="List Should Contain Value" library="Collections">
+<arg>${labels}</arg>
+<arg>${text}</arg>
+<doc>Fails if the ``value`` is not found from ``list``.</doc>
+<status status="PASS" starttime="20220226 13:36:29.239" endtime="20220226 13:36:29.255"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:29.193" endtime="20220226 13:36:29.255"/>
+</kw>
+<kw name="When Select From List By Label" library="SeleniumLibrary">
+<arg>${PAGE}[example_select]</arg>
+<arg>2</arg>
+<doc>Selects options from selection list ``locator`` by ``labels``.</doc>
+<msg timestamp="20220226 13:36:29.256" level="INFO">Selecting options from selection list 'id:exampleFormControlSelect1' by label 2.</msg>
+<status status="PASS" starttime="20220226 13:36:29.256" endtime="20220226 13:36:29.306"/>
+</kw>
+<kw name="Then List Selection Should Be" library="SeleniumLibrary">
+<arg>${PAGE}[example_select]</arg>
+<arg>2</arg>
+<doc>Verifies selection list ``locator`` has ``expected`` options selected.</doc>
+<msg timestamp="20220226 13:36:29.306" level="INFO">Verifying list 'id:exampleFormControlSelect1' has option [ 2 ] selected.</msg>
+<msg timestamp="20220226 13:36:29.323" level="INFO">Current page contains list 'id:exampleFormControlSelect1'.</msg>
+<status status="PASS" starttime="20220226 13:36:29.306" endtime="20220226 13:36:29.393"/>
+</kw>
+<kw name="And List Should Have Options" library="element">
+<arg>${PAGE}[example_select]</arg>
+<arg>5</arg>
+<kw name="Get List Items" library="SeleniumLibrary">
+<var>${labels}</var>
+<arg>${list}</arg>
+<doc>Returns all labels or values of selection list ``locator``.</doc>
+<msg timestamp="20220226 13:36:29.459" level="INFO">${labels} = ['1', '2', '3', '4', '5']</msg>
+<status status="PASS" starttime="20220226 13:36:29.393" endtime="20220226 13:36:29.459"/>
+</kw>
+<kw name="Get Length" library="BuiltIn">
+<var>${l}</var>
+<arg>${labels}</arg>
+<doc>Returns and logs the length of the given item as an integer.</doc>
+<msg timestamp="20220226 13:36:29.459" level="INFO">Length is 5</msg>
+<msg timestamp="20220226 13:36:29.459" level="INFO">${l} = 5</msg>
+<status status="PASS" starttime="20220226 13:36:29.459" endtime="20220226 13:36:29.459"/>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>${l}</arg>
+<arg>${n}</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20220226 13:36:29.459" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20220226 13:36:29.459" endtime="20220226 13:36:29.459"/>
+</kw>
+<status status="PASS" starttime="20220226 13:36:29.393" endtime="20220226 13:36:29.459"/>
+</kw>
+<kw name="Close Browser" library="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20220226 13:36:29.459" endtime="20220226 13:36:31.646"/>
+</kw>
+<tag>level:ui</tag>
+<tag>type:positive</tag>
+<status status="PASS" starttime="20220226 13:36:26.779" endtime="20220226 13:36:31.646"/>
+</test>
+<status status="PASS" starttime="20220226 13:36:06.383" endtime="20220226 13:36:31.648"/>
+</suite>
+<status status="PASS" starttime="20220226 13:35:54.555" endtime="20220226 13:36:31.648"/>
+</suite>
+<status status="PASS" starttime="20220226 13:35:48.573" endtime="20220226 13:36:31.658"/>
+</suite>
+<statistics>
+<total>
+<stat pass="15" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+<stat pass="8" fail="0" skip="0">level:api</stat>
+<stat pass="7" fail="0" skip="0">level:ui</stat>
+<stat pass="2" fail="0" skip="0">type:negative</stat>
+<stat pass="13" fail="0" skip="0">type:positive</stat>
+</tag>
+<suite>
+<stat pass="15" fail="0" skip="0" id="s1" name="Test Cases">Test Cases</stat>
+<stat pass="8" fail="0" skip="0" id="s1-s1" name="Api">Test Cases.Api</stat>
+<stat pass="8" fail="0" skip="0" id="s1-s1-s1" name="Api Movie Db">Test Cases.Api.Api Movie Db</stat>
+<stat pass="7" fail="0" skip="0" id="s1-s2" name="Ui">Test Cases.Ui</stat>
+<stat pass="2" fail="0" skip="0" id="s1-s2-s1" name="Angular">Test Cases.Ui.Angular</stat>
+<stat pass="5" fail="0" skip="0" id="s1-s2-s2" name="Bootstrap">Test Cases.Ui.Bootstrap</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
