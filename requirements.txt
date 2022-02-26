@@ -1,0 +1,10 @@
+# framework
+robotframework
+docutils
+
+# libraries
+robotframework-seleniumlibrary
+webdrivermanager
+robotframework-requests
+robotframework-jsonlibrary
+robotframework-jsonschemalibrary

@@ -1,0 +1,12 @@
+{
+  "angular_logo_navbar": "css:mat-toolbar > mat-toolbar-row a.nav-link > img",
+  "angular_logo_hero": "css:.hero-logo",
+  "hero_text": "css:.hero-headline",
+  "hero_button": "css:a.hero-cta",
+  "title": "css:h1",
+  "search_input": "css:.search-container input[type=search]",
+  "search_clear_icon": "css:.search-container mat-icon",
+  "search_results": "css:.search-results",
+  "section_by_text": "xpath://*[contains(@class,\"search-area\")][./h3[starts-with(., \"TEXT\")]]",
+  "item_by_text": "xpath://*[contains(@class,\"search-page\")][.//span[normalize-space(.)=\"TEXT\"]]/a"
+}

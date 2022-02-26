@@ -1,47 +1,37 @@
-> To use this template, clone a new repository based on this and
-> 1. Fill out this README.md, guided by the tasks below
-> 1. Implement the test cases in the choosen framework which are listed either in [test_cases/UI.md](UI.md) or [test_cases/API.md](API.md), depending of the test level.
-> 1. Delete this quotation
-> 1. Delete tasks from all files
+# evaluation-py-robot
 
-# evaluation-py-template
-
-- [ ] Update name to evaluation-py-(framework name) here and in package.json too
-
-This is a template repository to create test-ware for evaluating certain Python test automation tools.
-
-- [ ] Update description to describe purpose of this repository, e.g. This is a test-ware for evaluation FRAMEWORK test automation tool.
+This repository contains tests implemented using the Robot Framework.
 
 ## Prerequisites
 
 1. Python 3.8+
 1. Pip
-1. [ ] Add additional prerequisites if necessary
 
 ## Framework used
 
-- [ ] Add name of the framework
-- [ ] Add URL to the homepage and API docs of the framework
-- [ ] Add brief description of the framework
+* Name: Robot Framework
+* Home page: https://robotframework.org/
+* User Guide: https://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html
+* Libraries: https://robotframework.org/?tab=libraries#resources
+  * Standard libraries: http://robotframework.org/robotframework/#standard-libraries
+  * robotframework-requests: https://github.com/MarketSquare/robotframework-requests
+  * robotframework-jsonschemalibrary: https://github.com/jstaffans/robotframework-jsonschemalibrary
+  * robotframework-selenium2library: https://github.com/robotframework/SeleniumLibrary
+  * RESTinstance: https://github.com/asyrjasalo/RESTinstance/
 
 ## Test cases
 
-The implemented test cases can be found in [TBD.md](test_cases/TBD.md).
-
-- [ ] Update, which test case set is used
+The implemented test cases can be found in [UI.md](test_cases/ui/UI.md) and [API.md](test_cases/api/API.md).
 
 ## Setup
 
 ```shell
 pip install -r requirements.txt
+webdrivermanager chrome
 ```
-
-- [ ] Add additional setup instructions if necessary
 
 ## Execution
 
 ```shell
-python TBD
+robot test_cases
 ```
-
-- [ ] Add additional instructions to run tests

@@ -1,0 +1,12 @@
+{
+  "readonly_input": "css:.form-control[type=\"text\"][readonly]",
+  "default_checkbox": "id:defaultCheck1",
+  "disabled_checkbox": "id:defaultCheck2",
+  "default_radio": "id:exampleRadios1",
+  "second_default_radio": "id:exampleRadios2",
+  "disabled_radio": "id:exampleRadios3",
+  "primary_button": "xpath://button[normalize-space(.)=\"Primary button\"]",
+  "primary_link_button": "xpath://*[contains(@class,\"btn-primary\")][normalize-space(.)=\"Link\"]",
+  "example_select": "id:exampleFormControlSelect1",
+  "example_multi_select": "id:exampleFormControlSelect2"
+}
