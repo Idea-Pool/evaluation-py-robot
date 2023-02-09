@@ -26,3 +26,12 @@ jobs:
           webdrivermanager chrome
       - name: Robot tests
         run: robot test_cases
+      - name: Archive report artifacts
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: report-artifacts
+          path: |
+            output.xml
+            log.html
+            report.html
