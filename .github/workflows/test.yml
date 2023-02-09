@@ -13,18 +13,16 @@ jobs:
         os: [windows-latest, macOS-latest] # chromedriver needs adjustments on ubuntu-lastest
 
     steps:
-      - uses: actions/checkout@v1
-
+      - name: Checkout code
+        uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install -r requirements.txt
           webdrivermanager chrome
       - name: Robot tests
-        run: |
-          robot test_cases
+        run: robot test_cases
