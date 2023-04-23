@@ -10,7 +10,7 @@ Resource        ../../resources/data.resource
 Resource        ../../resources/element.resource
 
 *** Variables ***
-${BASE_URL}     https://getbootstrap.com/docs/4.4
+${BASE_URL}     https://getbootstrap.com/docs/4.6
 ${BROWSER}      Chrome
 
 *** Test Cases ***
@@ -18,10 +18,10 @@ TC-03 Checking form elements
   Given Bootstrap is opened  forms
   # There is some encoding issue with JSON file with the "·" character
   # Then Title Should Be  ${TEXTS}[forms_title]
-  Then Title Should Be  Forms · Bootstrap
+  Then Title Should Be  Forms · Bootstrap v4.6
   And Element Should Not Be In View  ${PAGE}[readonly_input]
   When Scroll Element Into View  ${PAGE}[readonly_input]
-  And Sleep  2s
+  And Sleep  3s
   Then Element Should Be In View  ${PAGE}[readonly_input]
   And Element Should Be ReadOnly  ${PAGE}[readonly_input]
 

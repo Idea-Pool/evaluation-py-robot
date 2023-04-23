@@ -19,8 +19,9 @@ TC-01 Checking landing page elements
   And Element Text Should Be  ${PAGE}[hero_text]  ${TEXTS}[hero]
   And Element Should Be Visible  ${PAGE}[hero_button]
   When Click Element  ${PAGE}[hero_button]
+  And Sleep    1s
   And Wait Until Element Is Visible  ${PAGE}[title]
-  Then Location Should Be  ${BASE_URL}/start
+  Then Location Should Be  ${BASE_URL}/quick-start
   And Element Text Should Be  ${PAGE}[title]  ${TEXTS}[getting_started_title]
 
 TC-02 Checking search field on the landing page
@@ -35,6 +36,7 @@ TC-02 Checking search field on the landing page
   And Menu Item Should Be In Section  ${TEXTS}[item]  ${TEXTS}[section]
   When Menu Item Is Clicked In Section  ${TEXTS}[item]  ${TEXTS}[section]
   Then Location Should Be  ${BASE_URL}/api/core/${TEXTS}[item]
+  And Sleep    1s
   And Wait Until Element Is Visible  ${PAGE}[title]
   And Element Text Should Be  ${PAGE}[title]  ${TEXTS}[item]
 
